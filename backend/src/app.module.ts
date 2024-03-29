@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { SavingAccountsService } from './savingAccounts/services/savingAccounts.service';
 import { PaginationMiddleware } from './filters/middlewares/pagination/pagination.middleware';
+import { AuthModule } from './auth/auth.module';
 
 /* CREACIÓN DEL MODULO */
 @Module({
@@ -18,7 +19,8 @@ import { PaginationMiddleware } from './filters/middlewares/pagination/paginatio
         EnviromentModule,
         DatabaseModule,
         SavingAccountsModule,
-        UsersModule
+        UsersModule,
+        AuthModule
     ],
     controllers: [],
     providers: [SavingAccountsService]

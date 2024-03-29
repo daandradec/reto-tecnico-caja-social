@@ -1,5 +1,5 @@
 /* IMPORTACIÓN DE PAQUETES */
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 export class Hash {
     /* APLICAR UN HASHING A UN STRING EN TEXTO PLANO PARA PROTEGERLO DE ROBO POR IRRECONOCIBILIDAD */
@@ -9,10 +9,10 @@ export class Hash {
     };
 
     /* COMPARAR UN STRING EN TEXTO PLANO CON SU VERSION HASHEADA */
-    static compareHash = async (
+    static compareHash = (
         plainString: string,
         receivedHashedString: string
     ): Promise<boolean> => {
-        return await bcrypt.compare(plainString, receivedHashedString);
+        return bcrypt.compare(plainString, receivedHashedString);
     };
 }

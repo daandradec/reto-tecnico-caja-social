@@ -7,7 +7,8 @@ import {
     Post,
     Put,
     Get,
-    Query
+    Query,
+    UseGuards
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
@@ -16,6 +17,7 @@ import { UsersService } from '../services/users.service';
 import { UserDTOCreate, UserDTOUpdate } from '../dto/user.dto';
 import { QueryFiltersDTO } from '../../filters/dto/queryFilters.dto';
 import { MongoIdPipe } from '../../filters/pipes/mongoId/mongoId.pipe';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -29,6 +31,7 @@ export class UsersController {
     }
 
     @ApiOperation({ summary: 'Mostrar la información de un usuario' })
+    @UseGuards(AuthGuard)
     @Get(':id')
     show(@Param('id', MongoIdPipe) id: string) {
         return this.usersService.show(id);
@@ -41,6 +44,7 @@ export class UsersController {
     }
 
     @ApiOperation({ summary: 'Actualizar campos del usuario' })
+    @UseGuards(AuthGuard)
     @Put(':id')
     update(
         @Param('id', MongoIdPipe) id: string,
@@ -50,6 +54,7 @@ export class UsersController {
     }
 
     @ApiOperation({ summary: 'Eliminar usuario y cuenta de ahorros' })
+    @UseGuards(AuthGuard)
     @Delete(':id')
     remove(@Param('id', MongoIdPipe) id: string) {
         return this.usersService.remove(id);

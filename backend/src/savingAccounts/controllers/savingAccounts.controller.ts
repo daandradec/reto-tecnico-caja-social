@@ -1,5 +1,13 @@
 /* IMPORTACIONES DE NEST */
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Put,
+    Query,
+    UseGuards
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 /* IMPORTACIONES LOCALES */
@@ -7,6 +15,7 @@ import { SavingAccountDTOUpdate } from '../dto/savingAccount.dto';
 import { QueryFiltersDTO } from '../../filters/dto/queryFilters.dto';
 import { SavingAccountsService } from '../services/savingAccounts.service';
 import { MongoIdPipe } from '../../filters/pipes/mongoId/mongoId.pipe';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 
 @ApiTags('Saving Account')
 @Controller('saving-account')
@@ -22,12 +31,14 @@ export class SavingAccountsController {
     @ApiOperation({
         summary: 'Mostrar la información de una cuenta de ahorros'
     })
+    @UseGuards(AuthGuard)
     @Get(':id')
     show(@Param('id', MongoIdPipe) id: string) {
         return this.savingAccountsService.show(id);
     }
 
     @ApiOperation({ summary: 'Actualizar campos de la cuenta de ahorros' })
+    @UseGuards(AuthGuard)
     @Put(':id')
     update(
         @Param('id', MongoIdPipe) id: string,

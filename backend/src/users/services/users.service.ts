@@ -42,6 +42,16 @@ export class UsersService {
         return user;
     }
 
+    /* OBTENER 1 USUARIO POR CAMPO */
+    async find(email: string) {
+        const user = await this.userModel.findOne({ email });
+        if (!user)
+            throw new NotFoundException('User not found', {
+                description: 'The user request is wrong'
+            });
+        return user;
+    }
+
     /* CREAR UN USUARIO Y SU CUENTA DE AHORROS */
     async create(fields: UserDTOCreate) {
         const user = await this.userModel.create({

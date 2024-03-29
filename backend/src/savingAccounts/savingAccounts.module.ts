@@ -10,11 +10,13 @@ import {
 } from './model/savingAccountExtended.model';
 import { SavingAccountsService } from './services/savingAccounts.service';
 import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
 
 /* CREACIÓN DEL MODULO */
 @Module({
     imports: [
         forwardRef(() => UsersModule),
+        forwardRef(() => AuthModule),
         MongooseModule.forFeature([
             { name: SavingAccount.name, schema: SavingAccountSchema }
         ])
