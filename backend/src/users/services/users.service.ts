@@ -3,11 +3,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-/* IMPORTACION DE SCHEMAS */
+/* IMPORTACIONES LOCALES */
 import { User } from '../models/user.model';
 import { UserDTOCreate, UserDTOUpdate } from '../dto/user.dto';
 import { QueryFiltersDTO } from '../../filters/dto/queryFilters.dto';
 import { SavingAccountsService } from '../../savingAccounts/services/savingAccounts.service';
+import { Hash } from '../../submodules/Hash/Hash';
 
 @Injectable()
 export class UsersService {
@@ -45,7 +46,7 @@ export class UsersService {
     async create(fields: UserDTOCreate) {
         const user = await this.userModel.create({
             ...fields,
-            password: fields.password
+            password: Hash.hash(fields.password)
         });
         const savingAccount = await this.savingAccountsService.create(user._id);
         user.savingAccount = savingAccount;
