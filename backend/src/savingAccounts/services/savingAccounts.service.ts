@@ -22,7 +22,7 @@ export class SavingAccountsService {
             this.savingAccountModel.countDocuments(),
             this.savingAccountModel
                 .find()
-                .populate('user')
+                .populate('user', '-password')
                 .skip(page * limit)
                 .limit(limit)
                 .exec()
@@ -31,12 +31,13 @@ export class SavingAccountsService {
     }
 
     /* OBTENER 1 CUENTA DE AHORROS */
-    show(id: string) {
-        const savingAccount = this.savingAccountModel.findById(id);
+    async show(id: string) {
+        const savingAccount = await this.savingAccountModel.findById(id);
         if (!savingAccount)
             throw new NotFoundException('Saving Account not found', {
                 description: 'The saving account request is wrong'
             });
+        await savingAccount.populate('user', '-password');
         return savingAccount;
     }
 
@@ -61,6 +62,7 @@ export class SavingAccountsService {
             });
         return this.savingAccountModel
             .findByIdAndUpdate(id, { $set: fields }, { new: true })
+            .populate('user', '-password')
             .exec();
     }
 

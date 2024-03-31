@@ -24,6 +24,7 @@ export class UsersService {
             this.userModel.countDocuments(),
             this.userModel
                 .find()
+                .select('-password')
                 .populate('savingAccount')
                 .skip(page * limit)
                 .limit(limit)
@@ -39,6 +40,8 @@ export class UsersService {
             throw new NotFoundException('User not found', {
                 description: 'The user request is wrong'
             });
+        await user.populate('savingAccount');
+        user.$set('password', undefined, { strict: false });
         return user;
     }
 
@@ -49,6 +52,7 @@ export class UsersService {
             throw new NotFoundException('User not found', {
                 description: 'The user request is wrong'
             });
+        await user.populate('savingAccount');
         return user;
     }
 
@@ -61,6 +65,7 @@ export class UsersService {
         const savingAccount = await this.savingAccountsService.create(user._id);
         user.savingAccount = savingAccount;
         await user.save();
+        user.$set('password', undefined, { strict: false });
         return user;
     }
 
@@ -71,9 +76,10 @@ export class UsersService {
             throw new NotFoundException('User not found', {
                 description: 'The user request is wrong'
             });
-
         return this.userModel
             .findByIdAndUpdate(id, { $set: fields }, { new: true })
+            .select('-password')
+            .populate('savingAccount')
             .exec();
     }
 

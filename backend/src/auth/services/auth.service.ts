@@ -22,11 +22,14 @@ export class AuthService {
         if (!(await Hash.compareHash(password, user.password)))
             throw new UnauthorizedException();
 
+        /* REMOVER LA CONTRASEÑA DE LA RESPUESTA */
+        user.$set('password', undefined, { strict: false });
+
         return {
-            user,
+            user: user,
             access_token: await this.jwtService.signAsync({
-                id: user._id,
-                _id: user.id
+                user: user._id,
+                savingaccount: (user.savingAccount as Record<string, any>)._id
             })
         };
     }
@@ -34,11 +37,12 @@ export class AuthService {
     /* REGISTRAR AL USUARIO EN EL SISTEMA Y GENERAR UN JWT TOKEN */
     async register(fields: UserDTOCreate) {
         const user = await this.usersService.create(fields);
+        user.$set('password', undefined, { strict: false });
         return {
             user,
             access_token: await this.jwtService.signAsync({
-                id: user._id,
-                _id: user.id
+                user: user._id,
+                savingaccount: (user.savingAccount as Record<string, any>)._id
             })
         };
     }
