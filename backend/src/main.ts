@@ -36,6 +36,11 @@ async function bootstrap() {
     SwaggerModule.setup('docs', app, document);
 
     app.useGlobalFilters(new MongoExceptionFilter());
+    app.enableCors({
+        origin: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+        credentials: true
+    });
 
     // Poner el servidor a escuchar
     await app.listen(process.env.PORT);

@@ -16,18 +16,24 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+html, body {
+    min-height: 100vh;
+    height: 100%;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+*, *::before, *::after {
+	box-sizing: border-box;
 }
+
+/* CLASE CONTENEDORA PARA TRABAJAR CON UN 70% DEL ANCHO NO CAMBIABLE SEGUN EL TAMAÑO DE LA PANTALLA */
+.container{    
+    width:1320px;
+    margin: 0 auto;
+}
+
+/* MEDIAS QUERYS PARA ACTUALIZAR EL VALOR DE LAS CLASES SEGUN EL TAMAÑO DE LA PANTALLA */
+@media(max-width:575px){ .container{ width: 100%;} }
+@media(min-width:576px){ .container{ width: 540px;} }
+@media(min-width:768px){ .container{ width: 720px;} }
+@media(min-width:992px){ .container{ width: 960px;} }
+@media(min-width:1200px){ .container{ width: 1140px;} }
