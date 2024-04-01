@@ -20,9 +20,9 @@ import { AuthGuard } from '../../auth/guards/auth.guard';
 import { OwnerGuard } from '../../auth/guards/owner.guard';
 import { AuthPublic } from '../../auth/decorators/authpublic.decorator';
 
-@ApiTags('Saving Account')
+@ApiTags('Saving Accounts')
 @UseGuards(AuthGuard)
-@Controller('saving-account')
+@Controller('saving-accounts')
 export class SavingAccountsController {
     constructor(private savingAccountsService: SavingAccountsService) {}
 
